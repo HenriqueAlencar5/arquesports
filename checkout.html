@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" href="recursos/icone.svg" type="image/svg+xml" />
+    <title>Finalizar compra | ARQUESPORTS</title>
+    <link rel="stylesheet" href="css/variaveis.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/componentes.css" />
+    <link rel="stylesheet" href="css/checkout.css" />
+  </head>
+  <body>
+    <header class="cabecalho checkout-cabecalho">
+      <a class="logo" href="index.html" aria-label="ARQUESPORTS, voltar à loja"
+        >ARQUE<span>SPORTS</span></a
+      >
+      <a class="link-voltar" href="index.html">Continuar comprando</a>
+    </header>
+
+    <main id="checkout-principal" class="checkout-principal">
+      <div class="estado-vazio" id="pagina-carrinho-vazio" hidden>
+        <h1>Seu carrinho está vazio</h1>
+        <p>Adicione produtos antes de finalizar a compra.</p>
+        <a class="botao botao-principal" href="index.html">Ver produtos</a>
+      </div>
+
+      <div class="checkout-grade" id="checkout-grade">
+        <form id="checkout-formulario" class="checkout-formulario" novalidate>
+          <h1>Finalizar compra</h1>
+          <p class="aviso-demonstracao" role="note">
+            <strong>Compra demonstrativa.</strong> Nenhuma cobrança é feita e nenhum dado é enviado
+            ou salvo. Não digite dados reais de cartão: para testar, use 4111 1111 1111 1111,
+            qualquer validade futura e qualquer CVV.
+          </p>
+          <p class="resumo-erros" id="resumo-erros" role="alert" hidden></p>
+
+          <fieldset>
+            <legend>Seus dados</legend>
+            <div class="grupo-campo">
+              <label for="nome">Nome completo</label>
+              <input
+                id="nome"
+                type="text"
+                autocomplete="name"
+                required
+                aria-describedby="nome-erro"
+              />
+              <p class="campo-erro" id="nome-erro" hidden></p>
+            </div>
+            <div class="grupo-campo">
+              <label for="email">E-mail</label>
+              <input
+                id="email"
+                type="email"
+                autocomplete="email"
+                required
+                aria-describedby="email-erro"
+              />
+              <p class="campo-erro" id="email-erro" hidden></p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Entrega</legend>
+            <div class="grupo-campo">
+              <label for="endereco">Endereço</label>
+              <input
+                id="endereco"
+                type="text"
+                autocomplete="street-address"
+                placeholder="Rua, número e bairro"
+                required
+                aria-describedby="endereco-erro"
+              />
+              <p class="campo-erro" id="endereco-erro" hidden></p>
+            </div>
+            <div class="linha-campos">
+              <div class="grupo-campo">
+                <label for="cidade">Cidade</label>
+                <input
+                  id="cidade"
+                  type="text"
+                  autocomplete="address-level2"
+                  required
+                  aria-describedby="cidade-erro"
+                />
+                <p class="campo-erro" id="cidade-erro" hidden></p>
+              </div>
+              <div class="grupo-campo">
+                <label for="cep">CEP</label>
+                <input
+                  id="cep"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="postal-code"
+                  placeholder="00000-000"
+                  maxlength="9"
+                  required
+                  aria-describedby="cep-erro"
+                />
+                <p class="campo-erro" id="cep-erro" hidden></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Pagamento (demonstração)</legend>
+            <div class="grupo-campo">
+              <label for="cartao">Número do cartão</label>
+              <input
+                id="cartao"
+                type="text"
+                inputmode="numeric"
+                autocomplete="cc-number"
+                placeholder="0000 0000 0000 0000"
+                maxlength="19"
+                required
+                aria-describedby="cartao-erro"
+              />
+              <p class="campo-erro" id="cartao-erro" hidden></p>
+            </div>
+            <div class="linha-campos">
+              <div class="grupo-campo">
+                <label for="validade">Validade</label>
+                <input
+                  id="validade"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="cc-exp"
+                  placeholder="MM/AA"
+                  maxlength="5"
+                  required
+                  aria-describedby="validade-erro"
+                />
+                <p class="campo-erro" id="validade-erro" hidden></p>
+              </div>
+              <div class="grupo-campo">
+                <label for="cvv">CVV</label>
+                <input
+                  id="cvv"
+                  type="password"
+                  inputmode="numeric"
+                  autocomplete="cc-csc"
+                  maxlength="4"
+                  required
+                  aria-describedby="cvv-erro"
+                />
+                <p class="campo-erro" id="cvv-erro" hidden></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <button class="botao botao-principal botao-total" type="submit">Finalizar pedido</button>
+        </form>
+
+        <aside class="resumo-pedido" aria-labelledby="resumo-titulo">
+          <h2 id="resumo-titulo">Resumo do pedido</h2>
+          <ul class="resumo-itens" id="resumo-itens"></ul>
+          <dl class="totais">
+            <div>
+              <dt>Subtotal</dt>
+              <dd id="resumo-subtotal"></dd>
+            </div>
+            <div>
+              <dt>Frete</dt>
+              <dd id="resumo-frete"></dd>
+            </div>
+            <div class="totais-total">
+              <dt>Total</dt>
+              <dd id="resumo-total"></dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+      <noscript><p>Ative o JavaScript para finalizar a compra.</p></noscript>
+    </main>
+
+    <script src="js/aviso-arquivo.js"></script>
+    <script type="module" src="js/checkout.js"></script>
+  </body>
+</html>
