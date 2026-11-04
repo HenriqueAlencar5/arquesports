@@ -72,6 +72,20 @@ Precisa de Node 18+.
 | `npm install` + `npm run test:dom` | Fluxos de tela em DOM simulado (jsdom): carrinho, favoritos, detalhes, menu, destaques e checkout                                       |
 | `npm run placeholders`             | Regera as imagens SVG a partir de `js/dados/produtos.js`                                                                                |
 
+## Desenvolvimento
+
+```bash
+npm install                  # dependências de desenvolvimento (jsdom e prettier)
+npm run formatar             # formata o código com Prettier
+npm run verificar-formatacao # confere a formatação sem alterar arquivos
+```
+
+O GitHub Actions (`.github/workflows/testes.yml`) roda `npm test`, `npm run test:dom` e a verificação de formatação a cada push.
+
+## Publicação
+
+O projeto não precisa de build. Para publicar no GitHub Pages: _Settings → Pages → Deploy from a branch → `main` / `(root)`_.
+
 ## Limitações conhecidas
 
 - Imagens são placeholders locais; fotos reais entram com `npm run fotos`.
