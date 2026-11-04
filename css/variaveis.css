@@ -1,0 +1,66 @@
+/* Variáveis de design: única fonte de cores, tipografia e espaçamentos.
+   Os demais arquivos CSS só usam var(--...), nunca valores soltos. */
+:root {
+  color-scheme: dark; /* menus nativos, barras de rolagem e campos seguem o tema escuro */
+  /* Cores */
+  --cor-fundo: #0a0a0a;
+  --cor-superficie: #111111;
+  --cor-superficie-elevada: #1b1b1b;
+  --cor-borda: #2a2a2a;
+  --cor-texto: #ffffff;
+  --cor-texto-suave: #a3a3a3; /* 7,5:1 sobre --cor-superficie */
+  --cor-marca: #0033ff; /* fundos e botões (texto branco: ~7:1) */
+  --cor-marca-texto: #5c7cff; /* azul legível como TEXTO (5,2:1 sobre --cor-superficie) */
+  --cor-erro: #ff6b6b;
+  --cor-sucesso: #3ddc84;
+  --cor-foco: #ffffff;
+  --cor-branco: #ffffff;
+  --cor-preto: #000000;
+  --cor-marca-hover: #1f4dff; /* hover dos botões azuis (texto branco: 5,9:1) */
+  --cor-realce: #dfe6ff; /* hover do botão claro */
+
+  /* Tipografia */
+  --fonte-titulo: "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  --fonte-corpo: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --texto-xs: 0.75rem;
+  --texto-sm: 0.875rem;
+  --texto-base: 1rem;
+  --texto-lg: 1.25rem;
+  --texto-xl: 1.75rem;
+  --texto-2xl: clamp(2rem, 5vw, 3rem);
+  --texto-destaque: clamp(3rem, 9vw, 5.5rem);
+  --entrelinha-curta: 1;
+  --entrelinha-corpo: 1.6;
+
+  /* Espaçamento (escala de 4px) */
+  --espaco-1: 0.25rem;
+  --espaco-2: 0.5rem;
+  --espaco-3: 0.75rem;
+  --espaco-4: 1rem;
+  --espaco-6: 1.5rem;
+  --espaco-8: 2rem;
+  --espaco-12: 3rem;
+  --espaco-16: 4rem;
+  --margem-pagina: clamp(1rem, 5vw, 4rem);
+  --largura-maxima: 1280px;
+
+  /* Forma, sombra, camadas, movimento */
+  --raio-sm: 6px;
+  --raio-md: 12px;
+  --raio-pilula: 999px;
+  --sombra-sobreposicao: 0 24px 64px rgb(0 0 0 / 0.6);
+  --z-cabecalho: 100;
+  --z-gaveta: 200;
+  --z-modal: 300;
+  --z-aviso: 400;
+  --duracao-rapida: 150ms;
+  --duracao-base: 250ms;
+  --suavizacao: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duracao-rapida: 0ms;
+    --duracao-base: 0ms;
+  }
+}

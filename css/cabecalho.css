@@ -1,0 +1,119 @@
+/* Cabeçalho com navegação (somente a página inicial usa .com-navegacao) */
+.cabecalho.com-navegacao {
+  grid-template-columns: auto 1fr minmax(160px, 280px) auto;
+  grid-template-areas: "logo nav search actions";
+  gap: var(--espaco-4) var(--espaco-6);
+}
+.com-navegacao .logo {
+  grid-area: logo;
+}
+.com-navegacao .navegacao-principal {
+  grid-area: nav;
+  display: flex;
+  justify-content: center;
+  gap: var(--espaco-2);
+}
+.com-navegacao .caixa-busca {
+  grid-area: search;
+  max-width: none;
+  justify-self: stretch;
+}
+.com-navegacao .acoes-cabecalho {
+  grid-area: actions;
+}
+
+.menu-botao {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  min-height: 44px;
+  padding: 0 var(--espaco-4);
+  background: none;
+  border: 0;
+  color: var(--cor-texto);
+  font: 700 var(--texto-sm) var(--fonte-corpo);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.menu-botao:hover,
+.menu-botao[aria-expanded="true"] {
+  color: var(--cor-marca-texto);
+}
+.menu-botao .icone {
+  width: 16px;
+  height: 16px;
+  transition: rotate var(--duracao-rapida);
+}
+.menu-botao[aria-expanded="true"] .icone {
+  rotate: 180deg;
+}
+
+/* O painel se posiciona em relação ao header (sticky), ocupando toda a largura */
+.menu-painel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  display: grid;
+  grid-template-columns: minmax(10rem, 1fr) 3fr;
+  gap: var(--espaco-8);
+  padding: var(--espaco-8) var(--margem-pagina);
+  background: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra-sobreposicao);
+}
+.menu-titulo {
+  font: 900 var(--texto-xl)/1 var(--fonte-titulo);
+  text-transform: uppercase;
+}
+.menu-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--espaco-2) var(--espaco-6);
+  align-content: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.menu-links a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--cor-texto);
+  font-weight: 700;
+  text-decoration: none;
+}
+.menu-links a:hover {
+  color: var(--cor-marca-texto);
+}
+.menu-links .menu-todos {
+  color: var(--cor-marca-texto);
+}
+
+@media (max-width: 900px) {
+  .cabecalho.com-navegacao {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "logo actions" "search search" "nav nav";
+    gap: var(--espaco-3);
+  }
+  .com-navegacao .navegacao-principal {
+    justify-content: space-between;
+  }
+  .menu-painel {
+    grid-template-columns: 1fr;
+    gap: var(--espaco-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .com-navegacao .navegacao-principal {
+    gap: 0;
+    min-width: 0;
+  }
+  .menu-botao {
+    padding: 0 var(--espaco-2);
+    font-size: var(--texto-xs);
+    letter-spacing: 0.04em;
+  }
+}
