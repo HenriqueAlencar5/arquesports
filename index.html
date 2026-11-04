@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ARQUESPORTS: tênis, roupas e acessórios esportivos das melhores marcas."
+    />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" href="recursos/icone.svg" type="image/svg+xml" />
+    <title>ARQUESPORTS | Electric Volt</title>
+    <link rel="stylesheet" href="css/variaveis.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/componentes.css" />
+    <link rel="stylesheet" href="css/cabecalho.css" />
+    <link rel="stylesheet" href="css/destaques.css" />
+  </head>
+  <body>
+    <a class="link-pular" href="#produtos">Ir para os produtos</a>
+
+    <header class="cabecalho com-navegacao">
+      <a class="logo" href="index.html" aria-label="ARQUESPORTS, página inicial"
+        >ARQUE<span>SPORTS</span></a
+      >
+
+      <nav class="navegacao-principal" id="navegacao-principal" aria-label="Principal"></nav>
+
+      <form class="caixa-busca" id="formulario-busca" role="search">
+        <label class="so-leitor-tela" for="campo-busca">Buscar produtos pelo nome</label>
+        <svg class="icone" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-4-4" />
+        </svg>
+        <input id="campo-busca" type="search" placeholder="Buscar produtos" autocomplete="off" />
+      </form>
+
+      <div class="acoes-cabecalho">
+        <button
+          class="botao-icone"
+          id="favoritos-alternar"
+          type="button"
+          aria-pressed="false"
+          aria-label="Mostrar apenas favoritos"
+        >
+          <svg class="icone" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z" />
+          </svg>
+        </button>
+        <button
+          class="botao-icone"
+          id="carrinho-botao"
+          type="button"
+          aria-label="Abrir carrinho, 0 itens"
+        >
+          <svg class="icone" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 8h14l-1 12H6L5 8Z" />
+            <path d="M9 8a3 3 0 0 1 6 0" />
+          </svg>
+          <span class="carrinho-contador" id="carrinho-contador" hidden>0</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section
+        class="destaques"
+        id="destaques"
+        aria-roledescription="carousel"
+        aria-label="Destaques"
+      >
+        <h1 class="so-leitor-tela">ARQUESPORTS: tênis, roupas e acessórios esportivos</h1>
+        <div class="destaques-slides" aria-live="off">
+          <div class="slide ativo" role="group" aria-roledescription="slide" aria-label="1 de 3">
+            <div class="slide-texto">
+              <p class="sobretitulo">Nova coleção</p>
+              <h2 class="slide-titulo">Electric<br />Velocity</h2>
+              <p>O futuro da performance chegou. Conheça a linha de amortecimento Volt-Reaction.</p>
+              <a class="botao botao-claro" href="#produtos" data-ir-categoria="calcados"
+                >Ver calçados</a
+              >
+            </div>
+            <img
+              class="slide-arte"
+              src="recursos/imagens/destaque-volt-runner-elite.svg"
+              alt=""
+              width="640"
+              height="640"
+            />
+          </div>
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="2 de 3" inert>
+            <div class="slide-texto">
+              <p class="sobretitulo">Performance</p>
+              <h2 class="slide-titulo">Treino<br />sem limites</h2>
+              <p>Roupas leves, de secagem rápida e com liberdade total de movimento.</p>
+              <a class="botao botao-claro" href="#produtos" data-ir-categoria="roupas"
+                >Ver roupas</a
+              >
+            </div>
+            <img
+              class="slide-arte"
+              src="recursos/imagens/destaque-jaqueta-thermo.svg"
+              alt=""
+              width="640"
+              height="640"
+            />
+          </div>
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="3 de 3" inert>
+            <div class="slide-texto">
+              <p class="sobretitulo">Kids sport</p>
+              <h2 class="slide-titulo">Play<br />Fast</h2>
+              <p>Tênis, mochilas e acessórios para a criançada acompanhar o ritmo.</p>
+              <a class="botao botao-claro" href="#produtos" data-ir-publico="infantil"
+                >Linha infantil</a
+              >
+            </div>
+            <img
+              class="slide-arte"
+              src="recursos/imagens/destaque-tenis-play-kids.svg"
+              alt=""
+              width="640"
+              height="640"
+            />
+          </div>
+        </div>
+        <div class="destaques-controles">
+          <button
+            class="destaques-botao"
+            id="destaques-anterior"
+            type="button"
+            aria-label="Slide anterior"
+          >
+            <svg class="icone" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+          <button
+            class="destaques-botao"
+            id="destaques-proximo"
+            type="button"
+            aria-label="Próximo slide"
+          >
+            <svg class="icone" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+          <button class="destaques-alternar" id="destaques-alternar" type="button">Pausar</button>
+          <div class="destaques-indicadores"></div>
+        </div>
+      </section>
+
+      <section class="catalogo" id="produtos" aria-labelledby="catalogo-titulo">
+        <h2 id="catalogo-titulo" tabindex="-1">Produtos</h2>
+
+        <div class="barra-filtros">
+          <div
+            class="categorias"
+            id="categorias-botoes"
+            role="group"
+            aria-label="Filtrar por categoria"
+          ></div>
+          <div class="filtros">
+            <div class="campo">
+              <label for="filtro-publico">Público</label
+              ><select id="filtro-publico"></select>
+            </div>
+            <div class="campo">
+              <label for="filtro-preco">Preço</label
+              ><select id="filtro-preco"></select>
+            </div>
+            <div class="campo">
+              <label for="filtro-ordem">Ordenar por</label
+              ><select id="filtro-ordem"></select>
+            </div>
+          </div>
+        </div>
+
+        <p class="status-resultados" id="resultados-status" role="status"></p>
+        <div class="grade-produtos" id="lista-produtos">
+          <noscript><p>Ative o JavaScript para ver os produtos.</p></noscript>
+        </div>
+      </section>
+
+      <section class="sobre" aria-labelledby="sobre-titulo">
+        <h2 id="sobre-titulo">Quem somos</h2>
+        <p>A ARQUESPORTS nasceu da paixão por performance, estilo e inovação.</p>
+        <p>
+          Reunimos as melhores marcas esportivas do mercado para oferecer produtos que unem
+          tecnologia, conforto e design.
+        </p>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <a class="logo" href="index.html" aria-label="ARQUESPORTS, início"
+        >ARQUE<span>SPORTS</span></a
+      >
+      <p>
+        A ARQUESPORTS reúne as melhores marcas esportivas para unir tecnologia, conforto e design.
+      </p>
+      <small>© 2026 ARQUESPORTS Brasil. Todos os direitos reservados.</small>
+    </footer>
+
+    <dialog class="gaveta" id="carrinho-gaveta" aria-labelledby="carrinho-titulo">
+      <div class="gaveta-interno">
+        <div class="gaveta-cabecalho">
+          <h2 id="carrinho-titulo" tabindex="-1">Seu carrinho</h2>
+          <button
+            class="botao-icone"
+            id="carrinho-fechar"
+            type="button"
+            autofocus
+            aria-label="Fechar carrinho"
+          >
+            <svg class="icone" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6 6 18" />
+            </svg>
+          </button>
+        </div>
+        <div class="gaveta-corpo">
+          <ul class="carrinho-lista" id="carrinho-itens"></ul>
+          <div class="carrinho-vazio" id="carrinho-vazio">
+            <p>Seu carrinho está vazio.</p>
+            <button class="botao botao-contorno" id="carrinho-continuar" type="button">
+              Continuar comprando
+            </button>
+          </div>
+        </div>
+        <div class="gaveta-rodape" id="carrinho-rodape" hidden>
+          <p class="aviso-frete" id="carrinho-aviso-frete"></p>
+          <dl class="totais">
+            <div>
+              <dt>Subtotal</dt>
+              <dd id="carrinho-subtotal"></dd>
+            </div>
+            <div>
+              <dt>Frete</dt>
+              <dd id="carrinho-frete"></dd>
+            </div>
+            <div class="totais-total">
+              <dt>Total</dt>
+              <dd id="carrinho-total"></dd>
+            </div>
+          </dl>
+          <a class="botao botao-principal" href="checkout.html">Finalizar compra</a>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="modal" id="produto-dialogo" aria-labelledby="detalhe-titulo">
+      <div class="modal-interno">
+        <button
+          class="botao-icone modal-fechar"
+          id="detalhe-fechar"
+          type="button"
+          autofocus
+          aria-label="Fechar detalhes"
+        >
+          <svg class="icone" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M18 6 6 18" />
+          </svg>
+        </button>
+        <div id="detalhe-conteudo"></div>
+      </div>
+    </dialog>
+
+    <div class="so-leitor-tela" id="carrinho-status" role="status"></div>
+    <script src="js/aviso-arquivo.js"></script>
+    <script type="module" src="js/principal.js"></script>
+  </body>
+</html>
