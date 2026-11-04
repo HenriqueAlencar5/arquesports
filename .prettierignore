@@ -1,0 +1,4 @@
+node_modules
+package-lock.json
+recursos/imagens/*.svg
+recursos/icone.svg

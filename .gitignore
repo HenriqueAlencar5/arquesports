@@ -1,0 +1,14 @@
+# Dependências
+node_modules/
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Logs e variáveis de ambiente
+*.log
+.env
+.env.*

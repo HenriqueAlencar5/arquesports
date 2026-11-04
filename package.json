@@ -1,0 +1,22 @@
+{
+  "name": "arquesports",
+  "version": "1.0.0",
+  "description": "Loja virtual esportiva em HTML, CSS e JavaScript puro (projeto acadêmico e de portfólio).",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "placeholders": "node scripts/gerar-placeholders.mjs",
+    "test": "node scripts/verificar-fundacao.mjs && node scripts/verificar-catalogo.mjs && node scripts/verificar-favoritos.mjs && node scripts/verificar-validadores.mjs && node scripts/verificar-contraste.mjs && node scripts/verificar-estatico.mjs",
+    "test:dom": "node scripts/verificar-dom.mjs && node scripts/verificar-checkout-dom.mjs",
+    "fotos": "node scripts/aplicar-fotos.mjs",
+    "formatar": "prettier --write .",
+    "verificar-formatacao": "prettier --check ."
+  },
+  "devDependencies": {
+    "jsdom": "^26.0.0",
+    "prettier": "^3.3.0"
+  }
+}
