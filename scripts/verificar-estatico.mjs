@@ -2,9 +2,10 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { produtos } from "../js/dados/produtos.js";
 
-const root = new URL("../", import.meta.url).pathname;
+const root = fileURLToPath(new URL("../", import.meta.url)); // .pathname quebra no Windows (/C:/...)
 const walk = (dir) =>
   readdirSync(join(root, dir)).flatMap((name) => {
     const rel = join(dir, name);
@@ -14,6 +15,16 @@ const read = (rel) => readFileSync(join(root, rel), "utf8");
 const arquivosJs = walk("js").filter((f) => f.endsWith(".js"));
 const arquivosCss = walk("css");
 const pages = ["index.html", "checkout.html"];
+
+// 0) nenhum arquivo do projeto pode estar vazio (um script de renomeação já zerou um LEIA-ME sem ninguém notar)
+const todosArquivos = (dir = "") =>
+  readdirSync(join(root, dir))
+    .filter((nome) => !["node_modules", ".git"].includes(nome))
+    .flatMap((nome) => {
+      const rel = join(dir, nome);
+      return statSync(join(root, rel)).isDirectory() ? todosArquivos(rel) : [rel];
+    });
+for (const f of todosArquivos()) assert.ok(statSync(join(root, f)).size > 0, `arquivo vazio: ${f}`);
 
 // 1) todo href/src local das páginas existe
 for (const page of pages) {
