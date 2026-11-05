@@ -26,7 +26,7 @@ export const normalizar = (texto) =>
     .trim();
 
 export function filtrarProdutos(
-  list,
+  lista,
   {
     busca = "",
     categoria = "todos",
@@ -37,9 +37,9 @@ export function filtrarProdutos(
   } = {},
 ) {
   const termos = normalizar(busca).split(/\s+/).filter(Boolean);
-  const faixa = FAIXAS_PRECO[faixaPreco] ?? FAIXAS_PRECO.all;
+  const faixa = FAIXAS_PRECO[faixaPreco] ?? FAIXAS_PRECO.todos;
 
-  return list.filter((p) => {
+  return lista.filter((p) => {
     const preco = obterPrecoUnitarioCentavos(p);
     const textoBusca = normalizar(`${p.nome} ${p.marca} ${p.descricao}`);
     return (
@@ -56,8 +56,8 @@ export function filtrarProdutos(
   });
 }
 
-export function ordenarProdutos(list, ordem = "destaque") {
-  const copia = [...list]; // nunca altera a lista original
+export function ordenarProdutos(lista, ordem = "destaque") {
+  const copia = [...lista]; // nunca altera a lista original
   const porPreco = (a, b) => obterPrecoUnitarioCentavos(a) - obterPrecoUnitarioCentavos(b);
   switch (ordem) {
     case "preco-asc":
@@ -71,5 +71,5 @@ export function ordenarProdutos(list, ordem = "destaque") {
   }
 }
 
-export const consultarCatalogo = (list, filters) =>
-  ordenarProdutos(filtrarProdutos(list, filters), filters?.ordem);
+export const consultarCatalogo = (lista, filtros) =>
+  ordenarProdutos(filtrarProdutos(lista, filtros), filtros?.ordem);

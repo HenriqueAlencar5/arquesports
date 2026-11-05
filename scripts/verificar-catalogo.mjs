@@ -54,4 +54,7 @@ assert.deepEqual(
   ),
   ["top-core", "legging-flex-pro"],
 );
+// faixa de preço desconhecida cai no valor de reserva ("todos") em vez de lançar erro
+assert.equal(filtrarProdutos(produtos, { faixaPreco: "inexistente" }).length, produtos.length);
+
 console.log("Etapa 2: regras do catálogo verificadas.");
