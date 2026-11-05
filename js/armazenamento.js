@@ -1,18 +1,31 @@
 // Leitura/escrita segura de JSON no localStorage (compartilhada por carrinho e favoritos).
-export function lerJson(key, storage = globalThis.localStorage) {
+
+/**
+ * Só ler `globalThis.localStorage` já pode lançar erro (cookies bloqueados, página isolada).
+ * Por isso o acesso fica dentro de try/catch: sem armazenamento, o app segue sem persistir.
+ */
+function armazenamentoPadrao() {
   try {
-    const texto = storage.getItem(key);
-    return texto === null ? null : JSON.parse(texto);
+    return globalThis.localStorage ?? null;
   } catch {
-    return null; // JSON corrompido ou storage indisponível
+    return null;
   }
 }
 
-export function escreverJson(key, value, storage = globalThis.localStorage) {
+export function lerJson(chave, armazenamento = armazenamentoPadrao()) {
   try {
-    storage.setItem(key, JSON.stringify(value));
+    const texto = armazenamento.getItem(chave);
+    return texto === null ? null : JSON.parse(texto);
+  } catch {
+    return null; // JSON corrompido ou armazenamento indisponível
+  }
+}
+
+export function escreverJson(chave, valor, armazenamento = armazenamentoPadrao()) {
+  try {
+    armazenamento.setItem(chave, JSON.stringify(valor));
     return true;
   } catch {
-    return false; // modo privado ou cota cheia: o app segue sem persistir
+    return false; // modo privado, cota cheia ou armazenamento indisponível
   }
 }

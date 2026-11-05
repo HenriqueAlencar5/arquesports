@@ -1,5 +1,5 @@
-// Lógica do carrinho. O carrinho é uma lista imutável de { id, quantity }.
-// Guardamos só id e quantidade: nome e preço são sempre lidos de products.js,
+// Lógica do carrinho. O carrinho é uma lista imutável de { id, quantidade }.
+// Guardamos só id e quantidade: nome e preço são sempre lidos de dados/produtos.js,
 // então um preço alterado no catálogo vale automaticamente no carrinho.
 import { obterProdutoPorId, obterPrecoUnitarioCentavos } from "./dados/produtos.js";
 import { lerJson, escreverJson } from "./armazenamento.js";
@@ -78,6 +78,7 @@ export function sanitizarCarrinho(bruto) {
   return carrinho;
 }
 
-export const carregarCarrinho = (storage) => sanitizarCarrinho(lerJson(CHAVE_CARRINHO, storage));
-export const salvarCarrinho = (carrinho, storage) =>
-  escreverJson(CHAVE_CARRINHO, carrinho, storage);
+export const carregarCarrinho = (armazenamento) =>
+  sanitizarCarrinho(lerJson(CHAVE_CARRINHO, armazenamento));
+export const salvarCarrinho = (carrinho, armazenamento) =>
+  escreverJson(CHAVE_CARRINHO, carrinho, armazenamento);

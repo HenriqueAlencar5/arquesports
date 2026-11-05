@@ -69,5 +69,18 @@ assert.deepEqual(
   [{ id: "asics-pulse-x", quantidade: 2 }],
 );
 
+// localStorage bloqueado (cookies desativados): só ler a propriedade lança erro; o app deve seguir sem persistir
+const descritor = Object.getOwnPropertyDescriptor(globalThis, "localStorage");
+Object.defineProperty(globalThis, "localStorage", {
+  configurable: true,
+  get() {
+    throw new Error("SecurityError");
+  },
+});
+assert.deepEqual(carregarCarrinho(), []);
+assert.equal(salvarCarrinho([]), false);
+if (descritor) Object.defineProperty(globalThis, "localStorage", descritor);
+else delete globalThis.localStorage;
+
 assert.equal(produtos.length, 12);
 console.log("Etapa 1: todas as verificações passaram.");

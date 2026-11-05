@@ -14,5 +14,7 @@ export function sanitizarFavoritos(bruto) {
   return [...new Set(bruto.filter((id) => typeof id === "string" && obterProdutoPorId(id)))];
 }
 
-export const carregarFavoritos = (storage) => sanitizarFavoritos(lerJson(CHAVE_FAVORITOS, storage));
-export const salvarFavoritos = (ids, storage) => escreverJson(CHAVE_FAVORITOS, ids, storage);
+export const carregarFavoritos = (armazenamento) =>
+  sanitizarFavoritos(lerJson(CHAVE_FAVORITOS, armazenamento));
+export const salvarFavoritos = (ids, armazenamento) =>
+  escreverJson(CHAVE_FAVORITOS, ids, armazenamento);
