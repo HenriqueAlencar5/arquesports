@@ -1,7 +1,7 @@
 // Regras de validação e máscaras do checkout. Funções puras: cada validador
 // devolve uma mensagem de erro (string) ou null quando o valor é válido.
 
-export const somenteDigitos = (value) => value.replace(/\D/g, "");
+export const somenteDigitos = (valor) => valor.replace(/\D/g, "");
 
 /** Algoritmo de Luhn: detecta erros de digitação em números de cartão. */
 export function verificarLuhn(digitos) {
@@ -35,46 +35,48 @@ export const formatarValidade = (v) => {
 export const formatarCvv = (v) => somenteDigitos(v).slice(0, 4);
 
 /* ---------- Validadores ---------- */
-export function validarNome(value) {
-  const palavras = value
-    .trim()
-    .split(/\s+/)
-    .filter((w) => w.length >= 2);
-  return palavras.length >= 2 ? null : "Informe nome e sobrenome.";
+export function validarNome(valor) {
+  const palavras = valor.trim().split(/\s+/).filter(Boolean);
+  // aceita sobrenome abreviado ("Ana B"), mas exige pelo menos uma palavra com 2+ letras
+  const valido = palavras.length >= 2 && palavras.some((palavra) => palavra.length >= 2);
+  return valido ? null : "Informe nome e sobrenome.";
 }
 
-export const validarEmail = (value) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim())
+export const validarEmail = (valor) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim())
     ? null
     : "Informe um e-mail válido, como nome@exemplo.com.";
 
-export const validarEndereco = (value) =>
-  value.trim().length >= 5 ? null : "Informe rua, número e bairro.";
-export const validarCidade = (value) => (value.trim().length >= 2 ? null : "Informe a cidade.");
-export const validarCep = (value) =>
-  somenteDigitos(value).length === 8 ? null : "O CEP deve ter 8 números.";
+export const validarEndereco = (valor) =>
+  valor.trim().length >= 5 ? null : "Informe rua, número e bairro.";
+export const validarCidade = (valor) => (valor.trim().length >= 2 ? null : "Informe a cidade.");
+export const validarCep = (valor) =>
+  somenteDigitos(valor).length === 8 ? null : "O CEP deve ter 8 números.";
 
-export function validarNumeroCartao(value) {
-  const digitos = somenteDigitos(value);
+export function validarNumeroCartao(valor) {
+  const digitos = somenteDigitos(valor);
   if (digitos.length < 13 || digitos.length > 16)
     return "O número do cartão deve ter entre 13 e 16 dígitos.";
   return verificarLuhn(digitos) ? null : "Número de cartão inválido. Confira os dígitos.";
 }
 
 /** O cartão vale até o ÚLTIMO dia do mês indicado. */
-export function validarValidade(value, now = new Date()) {
-  const correspondencia = /^(\d{2})\/(\d{2})$/.exec(value.trim());
+const LIMITE_ANOS_VALIDADE = 20;
+
+export function validarValidade(valor, agora = new Date()) {
+  const correspondencia = /^(\d{2})\/(\d{2})$/.exec(valor.trim());
   if (!correspondencia) return "Use o formato MM/AA.";
   const mes = Number(correspondencia[1]);
   const ano = 2000 + Number(correspondencia[2]);
   if (mes < 1 || mes > 12) return "Mês inválido.";
+  if (ano > agora.getFullYear() + LIMITE_ANOS_VALIDADE) return "Ano de validade inválido.";
   const vencido =
-    ano < now.getFullYear() || (ano === now.getFullYear() && mes < now.getMonth() + 1);
+    ano < agora.getFullYear() || (ano === agora.getFullYear() && mes < agora.getMonth() + 1);
   return vencido ? "Cartão vencido." : null;
 }
 
-export const validarCvv = (value) =>
-  /^\d{3,4}$/.test(value) ? null : "O CVV deve ter 3 ou 4 números.";
+export const validarCvv = (valor) =>
+  /^\d{3,4}$/.test(valor) ? null : "O CVV deve ter 3 ou 4 números.";
 
 /** Fonte única: id do campo → validador. A ordem é a ordem do formulário. */
 export const CAMPOS = Object.freeze({
@@ -96,10 +98,10 @@ export const MASCARAS = Object.freeze({
 });
 
 /** Valida tudo e devolve { campo: mensagem } só com os campos inválidos. */
-export function validarCheckout(values, now = new Date()) {
+export function validarCheckout(valores, agora = new Date()) {
   const erros = {};
-  for (const [id, validate] of Object.entries(CAMPOS)) {
-    const mensagem = validate(values[id] ?? "", now);
+  for (const [id, validar] of Object.entries(CAMPOS)) {
+    const mensagem = validar(valores[id] ?? "", agora);
     if (mensagem) erros[id] = mensagem;
   }
   return erros;

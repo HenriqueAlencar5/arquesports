@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import * as v from "../js/validadores.js";
 
-const NOW = new Date(2026, 9, 30); // 30/10/2026
+const AGORA = new Date(2026, 9, 30); // 30/10/2026
 
 // máscaras
 assert.equal(v.formatarNumeroCartao("41111111111111119999"), "4111 1111 1111 1111");
@@ -19,13 +19,13 @@ assert.ok(v.validarNumeroCartao("4111 1111 1111 1112"));
 assert.ok(v.validarNumeroCartao("1234"));
 
 // validade: vale até o fim do mês
-assert.equal(v.validarValidade("10/26", NOW), null);
-assert.equal(v.validarValidade("09/26", NOW), "Cartão vencido.");
-assert.equal(v.validarValidade("12/25", NOW), "Cartão vencido.");
-assert.equal(v.validarValidade("01/27", NOW), null);
-assert.equal(v.validarValidade("13/30", NOW), "Mês inválido.");
-assert.equal(v.validarValidade("00/30", NOW), "Mês inválido.");
-assert.ok(v.validarValidade("1/30", NOW));
+assert.equal(v.validarValidade("10/26", AGORA), null);
+assert.equal(v.validarValidade("09/26", AGORA), "Cartão vencido.");
+assert.equal(v.validarValidade("12/25", AGORA), "Cartão vencido.");
+assert.equal(v.validarValidade("01/27", AGORA), null);
+assert.equal(v.validarValidade("13/30", AGORA), "Mês inválido.");
+assert.equal(v.validarValidade("00/30", AGORA), "Mês inválido.");
+assert.ok(v.validarValidade("1/30", AGORA));
 
 // demais campos
 assert.equal(v.validarNome("Maria Silva"), null);
@@ -39,6 +39,12 @@ assert.ok(v.validarCep("58000"));
 assert.equal(v.validarCvv("123"), null);
 assert.ok(v.validarCvv("12"));
 
+// validade: no máximo 20 anos à frente; nome aceita sobrenome abreviado
+assert.equal(v.validarValidade("12/46", AGORA), null);
+assert.ok(v.validarValidade("01/47", AGORA));
+assert.equal(v.validarNome("Ana B"), null);
+assert.ok(v.validarNome("A B"));
+
 // formulário completo
 const ok = {
   nome: "Maria Silva",
@@ -50,7 +56,7 @@ const ok = {
   validade: "12/30",
   cvv: "123",
 };
-assert.deepEqual(v.validarCheckout(ok, NOW), {});
-assert.deepEqual(Object.keys(v.validarCheckout({}, NOW)), Object.keys(v.CAMPOS));
-assert.deepEqual(Object.keys(v.validarCheckout({ ...ok, cvv: "1" }, NOW)), ["cvv"]);
+assert.deepEqual(v.validarCheckout(ok, AGORA), {});
+assert.deepEqual(Object.keys(v.validarCheckout({}, AGORA)), Object.keys(v.CAMPOS));
+assert.deepEqual(Object.keys(v.validarCheckout({ ...ok, cvv: "1" }, AGORA)), ["cvv"]);
 console.log("Etapa 4: validadores verificados.");

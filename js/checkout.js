@@ -15,10 +15,9 @@ const $ = (id) => document.getElementById(id);
 const IDS_CAMPOS = Object.keys(CAMPOS);
 const formulario = $("checkout-formulario");
 
-const linhas = obterItensCarrinho(carregarCarrinho());
-const totais = calcularTotais(
-  linhas.map(({ produto, quantidade }) => ({ id: produto.id, quantidade })),
-);
+const carrinho = carregarCarrinho();
+const linhas = obterItensCarrinho(carrinho);
+const totais = calcularTotais(carrinho);
 
 /* ---------- Resumo do pedido ---------- */
 
@@ -57,22 +56,22 @@ function mostrarErro(campo, mensagem) {
 
 const lerValores = () => Object.fromEntries(IDS_CAMPOS.map((id) => [id, $(id).value]));
 
-formulario.addEventListener("input", (event) => {
-  const campo = event.target;
+formulario.addEventListener("input", (evento) => {
+  const campo = evento.target;
   if (!(campo.id in CAMPOS)) return;
   if (campo.id in MASCARAS) campo.value = MASCARAS[campo.id](campo.value);
   // Depois que o campo já foi marcado com erro, revalida a cada tecla para o erro sumir assim que for corrigido.
   if (campo.hasAttribute("aria-invalid")) mostrarErro(campo, CAMPOS[campo.id](campo.value));
 });
 
-formulario.addEventListener("focusout", (event) => {
-  const campo = event.target;
+formulario.addEventListener("focusout", (evento) => {
+  const campo = evento.target;
   // Não reclama de campo vazio só porque o usuário passou por ele com Tab.
   if (campo.id in CAMPOS && campo.value !== "") mostrarErro(campo, CAMPOS[campo.id](campo.value));
 });
 
-formulario.addEventListener("submit", (event) => {
-  event.preventDefault();
+formulario.addEventListener("submit", (evento) => {
+  evento.preventDefault();
   const erros = validarCheckout(lerValores());
   for (const id of IDS_CAMPOS) mostrarErro($(id), erros[id] ?? null);
 
