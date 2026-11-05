@@ -118,7 +118,7 @@ Em navegadores antigos o layout pode degradar, e os slides ocultos do carrossel 
 - Não foi testado com leitor de tela real nem em dispositivos físicos.
 - Os testes de DOM usam jsdom, que não renderiza CSS nem implementa `<dialog>` por completo.
 
-## Melhorias futuras
+## Possíveis melhorias
 
 - Fotos reais otimizadas (WebP/AVIF, `srcset`)
 - Estado dos filtros na URL (links compartilháveis) e página própria por produto
