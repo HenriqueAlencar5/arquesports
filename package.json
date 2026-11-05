@@ -2,6 +2,23 @@
   "name": "arquesports",
   "version": "1.0.0",
   "description": "Loja virtual esportiva em HTML, CSS e JavaScript puro (projeto acadêmico e de portfólio).",
+  "author": "Henrique Cavalcanti Lustosa de Alencar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HenriqueAlencar5/arquesports.git"
+  },
+  "homepage": "https://github.com/HenriqueAlencar5/arquesports#readme",
+  "bugs": {
+    "url": "https://github.com/HenriqueAlencar5/arquesports/issues"
+  },
+  "keywords": [
+    "loja-virtual",
+    "javascript",
+    "html",
+    "css",
+    "acessibilidade",
+    "portfolio"
+  ],
   "private": true,
   "type": "module",
   "engines": {
