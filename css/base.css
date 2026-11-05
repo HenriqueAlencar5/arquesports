@@ -124,3 +124,9 @@ html {
 [tabindex="-1"]:focus {
   outline: none;
 }
+
+/* Confirmação ao adicionar ao carrinho: o "✓" é decorativo (a segunda declaração o esconde dos leitores de tela) */
+.botao.adicionado::after {
+  content: " ✓";
+  content: " ✓" / "";
+}

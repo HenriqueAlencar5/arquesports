@@ -2,7 +2,7 @@
 //  - slides inativos recebem `inert` (saem da ordem de Tab e do leitor de tela);
 //  - botão Pausar/Reproduzir (exigência WCAG 2.2.2 para conteúdo que se move);
 //  - não avança sozinho com prefers-reduced-motion, nem com mouse ou foco dentro dos destaques.
-import { elemento, icone } from "./renderizar.js";
+import { elemento } from "./renderizar.js";
 
 const INTERVALO_AUTOMATICO_MS = 6000;
 
@@ -24,16 +24,16 @@ export function iniciarDestaques(raiz) {
   let comFoco = false;
   let temporizador = null;
 
-  function mostrar(next) {
-    indice = (next + slides.length) % slides.length;
+  function mostrar(proximo) {
+    indice = (proximo + slides.length) % slides.length;
     slides.forEach((slide, i) => {
       slide.classList.toggle("ativo", i === indice);
       if (i === indice) slide.removeAttribute("inert");
       else slide.setAttribute("inert", "");
     });
-    indicadores.forEach((dot, i) => {
-      if (i === indice) dot.setAttribute("aria-current", "true");
-      else dot.removeAttribute("aria-current");
+    indicadores.forEach((indicador, i) => {
+      if (i === indice) indicador.setAttribute("aria-current", "true");
+      else indicador.removeAttribute("aria-current");
     });
   }
 
@@ -45,8 +45,8 @@ export function iniciarDestaques(raiz) {
         : null;
   }
 
-  function ir(next) {
-    mostrar(next);
+  function ir(proximo) {
+    mostrar(proximo);
     agendar();
   }
 
@@ -61,7 +61,7 @@ export function iniciarDestaques(raiz) {
 
   raiz.querySelector("#destaques-anterior").addEventListener("click", () => ir(indice - 1));
   raiz.querySelector("#destaques-proximo").addEventListener("click", () => ir(indice + 1));
-  indicadores.forEach((dot, i) => dot.addEventListener("click", () => ir(i)));
+  indicadores.forEach((indicador, i) => indicador.addEventListener("click", () => ir(i)));
   alternar.addEventListener("click", () => {
     reproduzindo = !reproduzindo;
     renderizarAlternar();

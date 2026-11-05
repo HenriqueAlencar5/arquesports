@@ -9,7 +9,7 @@ import {
 import { filtrarProdutos } from "../js/catalogo.js";
 import { produtos } from "../js/dados/produtos.js";
 
-let favs = alternarFavorito([], "asics-pulse-x");
+const favs = alternarFavorito([], "asics-pulse-x");
 assert.deepEqual(favs, ["asics-pulse-x"]);
 assert.deepEqual(alternarFavorito(favs, "asics-pulse-x"), []);
 assert.equal(alternarFavorito(favs, "nao-existe"), favs);

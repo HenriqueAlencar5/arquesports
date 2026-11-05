@@ -16,8 +16,15 @@ import {
   calcularTotais,
   carregarCarrinho,
   salvarCarrinho,
+  QUANTIDADE_MAXIMA,
+  CHAVE_CARRINHO,
 } from "./carrinho.js";
-import { alternarFavorito, carregarFavoritos, salvarFavoritos } from "./favoritos.js";
+import {
+  alternarFavorito,
+  carregarFavoritos,
+  salvarFavoritos,
+  CHAVE_FAVORITOS,
+} from "./favoritos.js";
 import { iniciarMenu } from "./interface/menu.js";
 import { iniciarDestaques } from "./interface/destaques.js";
 
@@ -54,8 +61,8 @@ const anunciar = (mensagem) => {
 
 function preencherSelect(selecao, opcoes) {
   selecao.replaceChildren(
-    ...Object.entries(opcoes).map(([value, rotulo]) =>
-      elemento("option", { texto: rotulo, atributos: { value } }),
+    ...Object.entries(opcoes).map(([valor, rotulo]) =>
+      elemento("option", { texto: rotulo, atributos: { value: valor } }),
     ),
   );
 }
@@ -68,11 +75,11 @@ function montarControles() {
   );
   preencherSelect(selecoes.ordem, ORDENACOES);
   caixaCategorias.replaceChildren(
-    ...Object.entries({ todos: "Todos", ...CATEGORIAS }).map(([value, rotulo]) =>
+    ...Object.entries({ todos: "Todos", ...CATEGORIAS }).map(([valor, rotulo]) =>
       elemento("button", {
         classe: "botao-categoria",
         texto: rotulo,
-        atributos: { type: "button", "data-categoria": value },
+        atributos: { type: "button", "data-categoria": valor },
       }),
     ),
   );
@@ -80,7 +87,7 @@ function montarControles() {
 
 function sincronizarControles() {
   campoBusca.value = estado.busca;
-  for (const [key, selecao] of Object.entries(selecoes)) selecao.value = estado[key];
+  for (const [chave, selecao] of Object.entries(selecoes)) selecao.value = estado[chave];
   for (const botaoCategoria of caixaCategorias.children)
     botaoCategoria.setAttribute(
       "aria-pressed",
@@ -109,8 +116,8 @@ function renderizar() {
     resultados.length === 1 ? "1 produto encontrado" : `${resultados.length} produtos encontrados`;
 }
 
-function atualizar(patch) {
-  estado = { ...estado, ...patch };
+function atualizar(alteracoes) {
+  estado = { ...estado, ...alteracoes };
   sincronizarControles();
   renderizar();
 }
@@ -134,22 +141,38 @@ function atualizarContadorCarrinho() {
 }
 
 /** Único ponto que altera o carrinho: salva, atualiza o contador e a gaveta. */
-function definirCarrinho(next) {
-  carrinho = next;
+function definirCarrinho(novo) {
+  carrinho = novo;
   salvarCarrinho(carrinho);
   atualizarContadorCarrinho();
   renderizarGavetaCarrinho(carrinho);
 }
 
+const quantidadeNoCarrinho = (id) => carrinho.find((i) => i.id === id)?.quantidade ?? 0;
+
 function tratarAdicionar(botao) {
   const produto = obterProdutoPorId(botao.dataset.adicionar);
   if (!produto) return;
+  const antes = quantidadeNoCarrinho(produto.id);
   definirCarrinho(adicionarItem(carrinho, produto.id));
-  anunciar(`${produto.nome} adicionado ao carrinho`);
+  const depois = quantidadeNoCarrinho(produto.id);
+  const limiteAtingido = depois === antes; // já havia o máximo: nada foi adicionado
+  // A quantidade vai na mensagem: texto idêntico seria ignorado pelo leitor de tela na 2ª vez.
+  anunciar(
+    limiteAtingido
+      ? `Limite de ${QUANTIDADE_MAXIMA} unidades de ${produto.nome} no carrinho atingido`
+      : `${produto.nome} adicionado ao carrinho (${depois} no carrinho)`,
+  );
+  // Feedback temporário: texto E nome acessível mudam juntos (o "✓" é só enfeite de CSS).
   botao.dataset.rotulo ??= botao.textContent;
-  botao.textContent = "Adicionado ✓";
+  botao.dataset.rotuloAria ??= botao.getAttribute("aria-label");
+  botao.textContent = limiteAtingido ? "Limite atingido" : "Adicionado";
+  botao.setAttribute("aria-label", `${botao.textContent}: ${produto.nome}`);
+  botao.classList.toggle("adicionado", !limiteAtingido);
   setTimeout(() => {
     botao.textContent = botao.dataset.rotulo;
+    botao.setAttribute("aria-label", botao.dataset.rotuloAria);
+    botao.classList.remove("adicionado");
   }, 1500);
 }
 
@@ -208,6 +231,15 @@ function abrirDetalhe(idProduto) {
   dialogoDetalhe.showModal();
 }
 
+/** Recarrega carrinho e favoritos salvos (outra aba alterou, ou a página voltou do cache do navegador). */
+function sincronizarComArmazenamento() {
+  carrinho = carregarCarrinho();
+  favoritos = carregarFavoritos();
+  atualizarContadorCarrinho();
+  renderizarGavetaCarrinho(carrinho);
+  renderizar();
+}
+
 /* ---------- Eventos ---------- */
 
 function vincularEventos() {
@@ -220,8 +252,8 @@ function vincularEventos() {
     const botaoCategoria = e.target.closest("[data-categoria]");
     if (botaoCategoria) atualizar({ categoria: botaoCategoria.dataset.categoria });
   });
-  for (const [key, selecao] of Object.entries(selecoes))
-    selecao.addEventListener("change", () => atualizar({ [key]: selecao.value }));
+  for (const [chave, selecao] of Object.entries(selecoes))
+    selecao.addEventListener("change", () => atualizar({ [chave]: selecao.value }));
   $("favoritos-alternar").addEventListener("click", () =>
     atualizar({ somenteFavoritos: !estado.somenteFavoritos }),
   );
@@ -258,6 +290,13 @@ function vincularEventos() {
       if (e.target === dialogo) dialogo.close();
     });
   }
+  // Sem isto, uma segunda aba sobrescreveria o carrinho da primeira com o próprio estado em memória.
+  window.addEventListener("storage", (e) => {
+    if ([CHAVE_CARRINHO, CHAVE_FAVORITOS, null].includes(e.key)) sincronizarComArmazenamento();
+  });
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) sincronizarComArmazenamento();
+  });
 }
 
 try {

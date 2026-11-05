@@ -12,7 +12,6 @@
   --cor-marca: #0033ff; /* fundos e botões (texto branco: ~7:1) */
   --cor-marca-texto: #5c7cff; /* azul legível como TEXTO (5,2:1 sobre --cor-superficie) */
   --cor-erro: #ff6b6b;
-  --cor-sucesso: #3ddc84;
   --cor-foco: #ffffff;
   --cor-branco: #ffffff;
   --cor-preto: #000000;
@@ -29,7 +28,6 @@
   --texto-xl: 1.75rem;
   --texto-2xl: clamp(2rem, 5vw, 3rem);
   --texto-destaque: clamp(3rem, 9vw, 5.5rem);
-  --entrelinha-curta: 1;
   --entrelinha-corpo: 1.6;
 
   /* Espaçamento (escala de 4px) */
@@ -50,8 +48,6 @@
   --raio-pilula: 999px;
   --sombra-sobreposicao: 0 24px 64px rgb(0 0 0 / 0.6);
   --z-cabecalho: 100;
-  --z-gaveta: 200;
-  --z-modal: 300;
   --z-aviso: 400;
   --duracao-rapida: 150ms;
   --duracao-base: 250ms;

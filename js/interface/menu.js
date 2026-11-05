@@ -7,7 +7,7 @@ import { elemento, icone } from "./renderizar.js";
 const PUBLICOS_MENU = ["masculino", "feminino", "infantil"];
 const CAMINHO_SETA = "m6 9 6 6 6-6";
 
-export function iniciarMenu(nav) {
+export function iniciarMenu(navegacao) {
   const menus = PUBLICOS_MENU.map((publico) => {
     const rotulo = PUBLICOS[publico];
     const idPainel = `menu-${publico}`;
@@ -64,10 +64,10 @@ export function iniciarMenu(nav) {
       definirAberto(menu, vaiAbrir);
     });
   }
-  nav.addEventListener("click", (e) => {
+  navegacao.addEventListener("click", (e) => {
     if (e.target.closest(".menu-painel a")) fecharTodos();
   });
-  nav.addEventListener("keydown", (e) => {
+  navegacao.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     const aberto = menus.find((m) => !m.painel.hidden);
     if (aberto) {
@@ -76,11 +76,11 @@ export function iniciarMenu(nav) {
     }
   });
   document.addEventListener("click", (e) => {
-    if (!nav.contains(e.target)) fecharTodos();
+    if (!navegacao.contains(e.target)) fecharTodos();
   });
   document.addEventListener("focusin", (e) => {
-    if (!nav.contains(e.target)) fecharTodos();
+    if (!navegacao.contains(e.target)) fecharTodos();
   }); // Tab para fora fecha
 
-  nav.replaceChildren(...menus.map((m) => m.item));
+  navegacao.replaceChildren(...menus.map((m) => m.item));
 }

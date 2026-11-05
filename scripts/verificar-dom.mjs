@@ -29,7 +29,6 @@ await import(new URL("js/principal.js", raiz).href);
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 const texto = (s) => $(s).textContent.replace(/\s/g, " ");
-const disparar = (n, type) => n.dispatchEvent(new window.Event(type, { bubbles: true }));
 const botaoAdicionar = (id) => $(`.card-produto [data-adicionar="${id}"]`);
 
 // 1) adicionar e abrir a gaveta
@@ -135,7 +134,42 @@ assert.deepEqual(
   ["Mochila Kids Sport", "Tênis Play Fast Kids"],
 );
 
-// 7) segurança: nome malicioso vira texto, nunca HTML
+// 7) nome acessível contém o texto visível (WCAG 2.5.3 "Rótulo no nome")
+for (const botaoRotulado of $$("button[aria-label], a[aria-label]")) {
+  const visivel = botaoRotulado.textContent.trim().toLowerCase();
+  const rotulo = botaoRotulado.getAttribute("aria-label");
+  if (/[a-zà-ú]{2}/i.test(visivel)) {
+    assert.ok(
+      rotulo.toLowerCase().includes(visivel),
+      `aria-label "${rotulo}" não contém "${visivel}"`,
+    );
+  }
+}
+
+// 8) limite de unidades e anúncios que sempre mudam de texto
+$("#menu-masculino .menu-todos").click(); // restaura a lista (unissex aparece em "masculino")
+const botaoGarrafa = () => $('.card-produto [data-adicionar="garrafa-volt"]');
+botaoGarrafa().click();
+assert.match(texto("#carrinho-status"), /adicionado ao carrinho \(\d+ no carrinho\)/);
+for (let i = 0; i < 10; i++) botaoGarrafa().click();
+assert.match(texto("#carrinho-status"), /Limite de 10 unidades/);
+assert.equal(botaoGarrafa().textContent, "Limite atingido");
+
+// 9) outra aba alterou o carrinho / página voltou do cache do navegador
+localStorage.setItem(
+  "arquesports:carrinho:v1",
+  JSON.stringify([{ id: "top-core", quantidade: 3 }]),
+);
+window.dispatchEvent(new window.StorageEvent("storage", { key: "arquesports:carrinho:v1" }));
+assert.equal($("#carrinho-contador").textContent, "3");
+localStorage.setItem(
+  "arquesports:carrinho:v1",
+  JSON.stringify([{ id: "top-core", quantidade: 5 }]),
+);
+window.dispatchEvent(new window.PageTransitionEvent("pageshow", { persisted: true }));
+assert.equal($("#carrinho-contador").textContent, "5");
+
+// 10) segurança: nome malicioso vira texto, nunca HTML
 const { criarCardProduto } = await import(new URL("js/interface/renderizar.js", raiz).href);
 const malicioso = {
   id: "x",

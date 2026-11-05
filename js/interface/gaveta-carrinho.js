@@ -1,4 +1,4 @@
-// Desenha o conteúdo da gaveta do carrinho a partir do estado (cart).
+// Desenha o conteúdo da gaveta do carrinho a partir do estado (carrinho).
 import {
   calcularTotais,
   obterItensCarrinho,

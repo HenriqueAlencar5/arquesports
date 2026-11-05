@@ -8,7 +8,7 @@ export function elemento(tag, { classe, texto, atributos } = {}, ...filhos) {
   const no = document.createElement(tag);
   if (classe) no.className = classe;
   if (texto !== undefined) no.textContent = texto;
-  for (const [nome, value] of Object.entries(atributos ?? {})) no.setAttribute(nome, value);
+  for (const [nome, valor] of Object.entries(atributos ?? {})) no.setAttribute(nome, valor);
   no.append(...filhos.filter(Boolean));
   return no;
 }
@@ -67,7 +67,7 @@ const criarBotaoAdicionar = (p) =>
     atributos: {
       type: "button",
       "data-adicionar": p.id,
-      "aria-label": `Adicionar ${p.nome} ao carrinho`,
+      "aria-label": `Adicionar ao carrinho: ${p.nome}`,
     },
   });
 
