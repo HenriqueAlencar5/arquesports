@@ -6,6 +6,12 @@ Projeto acadêmico de Ciências da Computação, evoluído para portfólio.
 > **Aviso:** o checkout é **demonstrativo**. Nenhuma cobrança é feita e nenhum dado do formulário é enviado ou salvo.
 > Para testar, use o cartão `4111 1111 1111 1111`, qualquer validade futura e qualquer CVV.
 
+## Prévia
+
+| Início                                     | Produtos                                        | Celular                                          |
+| ------------------------------------------ | ----------------------------------------------- | ------------------------------------------------ |
+| ![Página inicial](docs/captura-inicio.png) | ![Lista de produtos](docs/captura-produtos.png) | ![Versão para celular](docs/captura-celular.png) |
+
 ## Como executar
 
 Os módulos ES não funcionam com duplo clique (`file://`). Sirva a pasta por HTTP:
@@ -20,7 +26,8 @@ Os módulos ES não funcionam com duplo clique (`file://`). Sirva a pasta por HT
 - Favoritos, com filtro "somente favoritos"
 - Modal de detalhes do produto
 - Carrinho em gaveta: adicionar, remover, alterar quantidade, subtotal, frete (grátis a partir de R$ 299,00) e total
-- Carrinho e favoritos persistem no `localStorage`
+- Carrinho e favoritos persistem no `localStorage` e ficam sincronizados entre abas do navegador
+- Limite de 10 unidades por produto, com aviso quando o limite é atingido
 - Checkout com máscaras, validação (Luhn, validade real), erros acessíveis e confirmação demonstrativa
 - Menu de navegação e carrossel de destaques acessíveis por teclado e toque
 
@@ -35,6 +42,7 @@ js/
   carrinho.js favoritos.js catalogo.js validadores.js formatar.js armazenamento.js    lógica, sem DOM
   interface/renderizar.js gaveta-carrinho.js menu.js destaques.js                     construção da interface
   principal.js checkout.js                                                            estado e eventos de cada página
+docs/      capturas de tela usadas neste README
 recursos/  icone.svg · imagens/ (placeholders SVG, um por produto) · imagens/fotos/ (fotos reais)
 scripts/   gerar-placeholders.mjs · aplicar-fotos.mjs · verificar-*.mjs
 ```
@@ -66,11 +74,11 @@ Instruções e sugestões de busca em `recursos/imagens/fotos/LEIA-ME.md`.
 
 Precisa de Node 18+.
 
-| Comando                            | O que verifica                                                                                                                          |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm test`                         | Carrinho, catálogo, favoritos, validadores, contraste das cores e auditoria estática (links, imports, padrões proibidos, variáveis CSS) |
-| `npm install` + `npm run test:dom` | Fluxos de tela em DOM simulado (jsdom): carrinho, favoritos, detalhes, menu, destaques e checkout                                       |
-| `npm run placeholders`             | Regera as imagens SVG a partir de `js/dados/produtos.js`                                                                                |
+| Comando                            | O que verifica                                                                                                                                           |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm test`                         | Carrinho, catálogo, favoritos, validadores, contraste das cores e auditoria estática (links, imports, padrões proibidos, variáveis CSS, arquivos vazios) |
+| `npm install` + `npm run test:dom` | Fluxos de tela em DOM simulado (jsdom): carrinho, favoritos, detalhes, menu, destaques e checkout                                                        |
+| `npm run placeholders`             | Regera as imagens SVG a partir de `js/dados/produtos.js`                                                                                                 |
 
 ## Desenvolvimento
 
@@ -85,6 +93,12 @@ O GitHub Actions (`.github/workflows/testes.yml`) roda `npm test`, `npm run test
 ## Publicação
 
 O projeto não precisa de build. Para publicar no GitHub Pages: _Settings → Pages → Deploy from a branch → `main` / `(root)`_.
+
+## Navegadores suportados
+
+Versões atuais de Chrome, Edge, Firefox e Safari. O projeto usa recursos modernos de HTML e CSS
+(`<dialog>`, `inert`, `:has()`, `aspect-ratio`, `dvh` e propriedades de transformação individuais).
+Em navegadores antigos o layout pode degradar, e os slides ocultos do carrossel continuam focáveis por Tab.
 
 ## Limitações conhecidas
 
