@@ -49,10 +49,21 @@ scripts/   gerar-placeholders.mjs · aplicar-fotos.mjs · verificar-*.mjs
 
 ## Convenção de nomes
 
-Todo o código que é nosso está em português: classes CSS (`.card-produto`, `.caixa-busca`, `.gaveta`), ids (`carrinho-botao`),
-atributos `data-*` (`data-adicionar`), variáveis CSS (`--cor-marca`, `--espaco-4`), funções (`adicionarItem`, `calcularTotais`)
-e arquivos. Continuam em inglês apenas o que pertence à linguagem ou ao navegador: palavras-chave do JavaScript, métodos
-(`addEventListener`, `.sort()`), atributos HTML (`src`, `aria-label`) e propriedades CSS.
+Os nomes criados neste projeto estão em português. Isso vale para classes CSS, ids, atributos `data-*`,
+variáveis CSS, funções, variáveis JavaScript, arquivos e pastas.
+
+| Tipo               | Exemplos                                             |
+| ------------------ | ---------------------------------------------------- |
+| Classes CSS        | `.card-produto`, `.caixa-busca`, `.gaveta`           |
+| Ids                | `carrinho-botao`, `campo-busca`                      |
+| Atributos `data-*` | `data-adicionar`, `data-favorito`                    |
+| Variáveis CSS      | `--cor-marca`, `--espaco-4`                          |
+| Funções JavaScript | `adicionarItem`, `calcularTotais`, `filtrarProdutos` |
+| Arquivos e pastas  | `carrinho.js`, `gaveta-carrinho.js`, `recursos/`     |
+
+Continuam em inglês apenas os nomes que não são do projeto, porque pertencem à linguagem ou ao navegador e
+não podem ser traduzidos: palavras-chave do JavaScript (`const`, `function`), métodos (`addEventListener`,
+`.sort()`), atributos HTML (`src`, `aria-label`) e propriedades CSS (`display`, `grid`).
 
 ## Decisões técnicas
 
